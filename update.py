@@ -7,10 +7,18 @@ readme_path = os.path.join(repo_path, "README.md")
 
 def get_purchase_link(file_url):
     print(file_url)
-    # response = requests.post(
-    #     "https://api.rmfg.com/design", json={"file_url": file_url}
-    # )
-    # return response.json().get("purchase_link")
+    files = {"file": ("mount.step", open(file_url, "rb"))}
+
+    designs_url = "https://api.rmfg.com/designs"
+    design_upload_headers = {
+        "accept": "application/json",
+    }
+    upload_response = requests.post(
+        designs_url, headers=design_upload_headers, files=files
+    )
+    print(upload_response.json())
+
+    return ""
 
 
 def update_readme():
