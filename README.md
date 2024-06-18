@@ -12,4 +12,8 @@ mounting_plate.step
 
 mounting_plate.step
 
+<a href="https://rmfg.com/quote/sheet/rvxsb45qdjmh"><img src="https://www.rmfg.com/have-it-made.svg" alt="Purchase" height="40px"></a>
+
+mounting_plate.step
+
 <a href="https://rmfg.com/quote/sheet/nwh7glxgpi4d"><img src="https://www.rmfg.com/have-it-made.svg" alt="Purchase" height="40px"></a>
