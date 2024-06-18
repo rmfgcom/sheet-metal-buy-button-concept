@@ -25,10 +25,6 @@ jobs:
         run: python update.py
         env:
           RMFG_KEY: ${{ secrets.RMFG_KEY }}
-
-      - name: Debug GH_TOKEN
-        run: echo "GH_TOKEN is ${GH_TOKEN:0:4}************"
-        env:
           GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
 
       - name: Commit and push changes
