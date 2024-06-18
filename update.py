@@ -1,37 +1,28 @@
 import os
 import requests
-import base64
+
 
 rmfg_key = os.getenv("RMFG_KEY", "")
-gh_token = os.getenv("GH_TOKEN", "")
 repo_path = os.getenv("GITHUB_WORKSPACE", ".")
 readme_path = os.path.join(repo_path, "README.md")
-repo_owner = "reasonrobotics"
-repo_name = "github-step-button"
-branch = "main"
 
 
-def get_file_content_from_github(filepath):
-    url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{filepath}?ref={branch}"
+def get_purchase_link(file_url):
+    print(file_url)
+
     headers = {
-        "Authorization": f"token {gh_token}",
-        "Accept": "application/vnd.github.v3.raw",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
     }
-    response = requests.get(url, headers=headers)
-    response.raise_for_status()
 
-    if response.content:
-        try:
-            return base64.b64decode(response.json()["content"])
-        except (ValueError, KeyError) as e:
-            print(f"Error decoding JSON or accessing content: {e}")
-            return None
-    else:
-        print(f"Empty response for {filepath}")
-        return None
+    try:
+        # Download the file content from the URL
+        response = requests.get(file_url, headers=headers)
+        response.raise_for_status()  # Ensure the request was successful
+    except requests.exceptions.HTTPError as e:
+        print(f"Failed to download {file_url}: {e}")
+        return ""
 
-
-def get_purchase_link(file_content):
+    file_content = response.content
     files = {"file": ("mount.step", file_content)}
 
     designs_url = "https://api.rmfg.com/designs"
@@ -42,7 +33,9 @@ def get_purchase_link(file_content):
     upload_response = requests.post(
         designs_url, headers=design_upload_headers, files=files
     )
-    return upload_response.json().get("purchase_link", "")
+    print(upload_response.json())
+
+    return ""
 
 
 def update_readme():
@@ -53,12 +46,13 @@ def update_readme():
     step_files = [f for f in os.listdir(repo_path) if f.endswith(".step")]
 
     for step_file in step_files:
-        file_content = get_file_content_from_github(step_file)
-        if file_content:
-            purchase_link = get_purchase_link(file_content)
-            if purchase_link:  # Only add the button if the link is not empty
-                button_markdown = f"[![Purchase](https://img.shields.io/badge/Purchase-STEP%20file-green)]({purchase_link})"
-                updated_content += f"\n\n{step_file}\n\n{button_markdown}"
+        file_url = (
+            f"https://github.com/reasonrobotics/github-step-button/raw/main/{step_file}"
+        )
+        purchase_link = get_purchase_link(file_url)
+        if purchase_link:  # Only add the button if the link is not empty
+            button_markdown = f"[![Purchase](https://img.shields.io/badge/Purchase-STEP%20file-green)]({purchase_link})"
+            updated_content += f"\n\n{step_file}\n\n{button_markdown}"
 
     with open(readme_path, "w") as file:
         file.write(updated_content)
