@@ -1,6 +1,8 @@
 import os
 import requests
 
+
+rmfg_key = os.getenv("RMFG_KEY", "")
 repo_path = os.getenv("GITHUB_WORKSPACE", ".")
 readme_path = os.path.join(repo_path, "README.md")
 
@@ -26,6 +28,7 @@ def get_purchase_link(file_url):
     designs_url = "https://api.rmfg.com/designs"
     design_upload_headers = {
         "accept": "application/json",
+        "rmfg_key": rmfg_key,
     }
     upload_response = requests.post(
         designs_url, headers=design_upload_headers, files=files
