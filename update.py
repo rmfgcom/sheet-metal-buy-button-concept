@@ -57,9 +57,7 @@ def update_readme():
         file_url = f"https://{github_token}@raw.githubusercontent.com/reasonrobotics/github-step-button/main/{step_file}"
         purchase_link = get_purchase_link(file_url)
         if purchase_link:  # Only add the button if the link is not empty
-            button_markdown = (
-                f"[![Purchase](https://www.rmfg.com/have-it-made.svg)]({purchase_link})"
-            )
+            button_markdown = f'<a href="{purchase_link}"><img src="https://www.rmfg.com/have-it-made.svg" alt="Purchase" height="40px"></a>'
             updated_content += f"\n\n{step_file}\n\n{button_markdown}"
 
     with open(readme_path, "w") as file:
