@@ -35,7 +35,13 @@ def get_purchase_link(file_url):
     upload_response = requests.post(
         designs_url, headers=design_upload_headers, files=files
     )
-    print(upload_response.json())
+    response_json = upload_response.json()
+    print(response_json)
+
+    # Construct the purchase link using the 'id' from the response JSON
+    if "id" in response_json:
+        purchase_link = f"https://rmfg.com/designs/{response_json['id']}"
+        return purchase_link
 
     return ""
 
