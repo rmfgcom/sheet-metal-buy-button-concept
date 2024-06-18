@@ -40,7 +40,7 @@ def get_purchase_link(file_url):
 
     # Construct the purchase link using the 'id' from the response JSON
     if "id" in response_json:
-        purchase_link = f"https://rmfg.com/designs/{response_json['id']}"
+        purchase_link = f"https://rmfg.com/quote/sheet/{response_json['id']}"
         return purchase_link
 
     return ""
