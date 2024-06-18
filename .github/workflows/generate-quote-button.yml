@@ -24,6 +24,11 @@ jobs:
       - name: Run update script
         run: python update.py
 
+      - name: Debug GH_TOKEN
+        run: echo "GH_TOKEN is ${GH_TOKEN:0:4}************"
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+
       - name: Commit and push changes
         env:
           GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
@@ -31,6 +36,5 @@ jobs:
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
           git add README.md
-          ${GH_TOKEN}
           git commit -m "Update README with purchase links"
           git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git HEAD:main
