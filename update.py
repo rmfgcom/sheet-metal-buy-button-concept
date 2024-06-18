@@ -26,8 +26,7 @@ def get_purchase_link(file_url):
 
     file_content = response.content
     files = {"file": ("mount.step", file_content)}
-
-    designs_url = "https://api.rmfg.com/designs"
+    designs_url = "https://api.rmfg.com/designs?public=true"
     design_upload_headers = {
         "accept": "application/json",
         "rmfg_key": rmfg_key,
