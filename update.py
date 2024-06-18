@@ -5,13 +5,15 @@ import requests
 rmfg_key = os.getenv("RMFG_KEY", "")
 repo_path = os.getenv("GITHUB_WORKSPACE", ".")
 readme_path = os.path.join(repo_path, "README.md")
+github_token = os.getenv("GH_TOKEN", "")
 
 
 def get_purchase_link(file_url):
     print(file_url)
 
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+        "Authorization": f"token {github_token}",
     }
 
     try:
