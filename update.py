@@ -7,7 +7,13 @@ readme_path = os.path.join(repo_path, "README.md")
 
 def get_purchase_link(file_url):
     print(file_url)
-    files = {"file": ("mount.step", open(file_url, "rb"))}
+
+    # Download the file content from the URL
+    response = requests.get(file_url)
+    response.raise_for_status()  # Ensure the request was successful
+    file_content = response.content
+
+    files = {"file": ("mount.step", file_content)}
 
     designs_url = "https://api.rmfg.com/designs"
     design_upload_headers = {
