@@ -21,7 +21,9 @@ def update_readme():
     step_files = [f for f in os.listdir(repo_path) if f.endswith(".step")]
 
     for step_file in step_files:
-        # file_url = f"https://github.com/yourusername/yourrepo/raw/main/{step_file}"
+        file_url = (
+            f"https://github.com/reasonrobotics/github-step-button/raw/main/{step_file}"
+        )
         purchase_link = get_purchase_link(file_url)
         button_markdown = f"[![Purchase](https://img.shields.io/badge/Purchase-STEP%20file-green)]({purchase_link})"
         updated_content += f"\n\n{step_file}\n\n{button_markdown}"
