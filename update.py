@@ -49,7 +49,17 @@ def update_readme():
     with open(readme_path, "r") as file:
         content = file.read()
 
-    updated_content = content
+    # Define the marker for the RMFG section
+    rmfg_marker = "<!-- RMFG -->"
+
+    # Check if the marker exists in the content
+    if rmfg_marker not in content:
+        content += f"\n\n{rmfg_marker}\n"
+
+    # Split the content at the marker
+    before_marker, after_marker = content.split(rmfg_marker, 1)
+
+    updated_content = before_marker + rmfg_marker
     step_files = [f for f in os.listdir(repo_path) if f.endswith(".step")]
 
     for step_file in step_files:
@@ -58,6 +68,9 @@ def update_readme():
         if purchase_link:  # Only add the button if the link is not empty
             button_markdown = f'<a href="{purchase_link}"><img src="https://www.rmfg.com/have-it-made.svg" alt="Purchase" height="40px"></a>'
             updated_content += f"\n\n{step_file}\n\n{button_markdown}"
+
+    # Append the rest of the content after the marker
+    updated_content += after_marker
 
     with open(readme_path, "w") as file:
         file.write(updated_content)
