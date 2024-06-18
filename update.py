@@ -19,7 +19,16 @@ def get_file_content_from_github(filepath):
     }
     response = requests.get(url, headers=headers)
     response.raise_for_status()
-    return base64.b64decode(response.json()["content"])
+
+    if response.content:
+        try:
+            return base64.b64decode(response.json()["content"])
+        except (ValueError, KeyError) as e:
+            print(f"Error decoding JSON or accessing content: {e}")
+            return None
+    else:
+        print(f"Empty response for {filepath}")
+        return None
 
 
 def get_purchase_link(file_content):
@@ -45,10 +54,11 @@ def update_readme():
 
     for step_file in step_files:
         file_content = get_file_content_from_github(step_file)
-        purchase_link = get_purchase_link(file_content)
-        if purchase_link:  # Only add the button if the link is not empty
-            button_markdown = f"[![Purchase](https://img.shields.io/badge/Purchase-STEP%20file-green)]({purchase_link})"
-            updated_content += f"\n\n{step_file}\n\n{button_markdown}"
+        if file_content:
+            purchase_link = get_purchase_link(file_content)
+            if purchase_link:  # Only add the button if the link is not empty
+                button_markdown = f"[![Purchase](https://img.shields.io/badge/Purchase-STEP%20file-green)]({purchase_link})"
+                updated_content += f"\n\n{step_file}\n\n{button_markdown}"
 
     with open(readme_path, "w") as file:
         file.write(updated_content)
