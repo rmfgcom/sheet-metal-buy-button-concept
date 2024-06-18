@@ -33,8 +33,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
+          git config --global user.name 'kennethcassel'
+          git config --global user.email 'kennethcassel@gmail.com'
           git add README.md
           git commit -m "Update README with purchase links"
           git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git HEAD:main
