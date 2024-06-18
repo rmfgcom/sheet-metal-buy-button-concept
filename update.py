@@ -67,21 +67,7 @@ def update_readme():
         purchase_link = get_purchase_link(file_url)
         if purchase_link:  # Only add the button if the link is not empty
             button_markdown = f'<a href="{purchase_link}"><img src="https://www.rmfg.com/have-it-made.svg" alt="Purchase" height="40px"></a>'
-            step_file_marker = f"\n\n{step_file}\n\n"
-            if step_file_marker in after_marker:
-                # Replace the existing button
-                before_step_file, after_step_file = after_marker.split(
-                    step_file_marker, 1
-                )
-                after_marker = (
-                    before_step_file
-                    + step_file_marker
-                    + button_markdown
-                    + after_step_file.split("\n\n", 1)[1]
-                )
-            else:
-                # Add a new button
-                updated_content += f"\n\n{step_file}\n\n{button_markdown}"
+            updated_content += f"\n\n{step_file}\n\n{button_markdown}"
 
     # Append the rest of the content after the marker
     updated_content += after_marker
